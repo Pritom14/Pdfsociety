@@ -23,6 +23,8 @@ import com.navjot.deepak.manpreet.pdfsociety.R;
 
 public class FeedbackActivity extends AppCompatActivity {
 
+    private static final String TAG = "FeedbackActivity";
+
     RatingBar RatingBar;
     EditText txtComment;
     Button buttonSubmit;
@@ -32,6 +34,7 @@ public class FeedbackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -56,10 +59,12 @@ public class FeedbackActivity extends AppCompatActivity {
             boolean result = true;
 
         if(RatingBar.getRating() == 0.0){
+            Log.e(TAG, "validateFeedback: rating bar is empty");
             Toast.makeText(getApplicationContext(),"Rating bar cannot be empty",Toast.LENGTH_SHORT).show();
             result = false;
         }
         if(TextUtils.isEmpty(txtComment.getText().toString().trim())){
+            Log.e(TAG, "validateFeedback: comment section is empty");
             Toast.makeText(getApplicationContext(),"Comment section cannot be empty",Toast.LENGTH_SHORT).show();
             result = false;
         }
@@ -85,7 +90,11 @@ public class FeedbackActivity extends AppCompatActivity {
                             .child(mAuth.getCurrentUser().getUid())
                             .setValue(fb);
 
+                    Log.d(TAG, "Submit: feedback submitted successfully");
+
                     startActivity(new Intent(FeedbackActivity.this, HomeActivity.class));
+                } else {
+                    Log.e(TAG, "Submit: feedback validation failed");
                 }
 
         }

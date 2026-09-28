@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import java.io.File;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener
 {
+    private static final String TAG = "HomeActivity";
+
     public ProgressDialog mProgressDialog;
     private FloatingActionButton fab;
     private FragmentPagerAdapter mPagerAdapter;
@@ -44,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: called");
         setContentView(R.layout.activity_home);
         init();
         initViewPager();
@@ -120,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onDestroy() {
-
+        Log.d(TAG, "onDestroy: called");
         finish();
         System.exit(0);
         super.onDestroy();
@@ -151,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         if (id == R.id.action_logout) {
 
-
+                    Log.d(TAG, "onOptionsItemSelected: logging out user");
                     showProgressDialog();
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(HomeActivity.this, SignIn.class));
@@ -177,15 +181,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+                    Log.d(TAG, "onNavigationItemSelected: sharing app apk");
                     ApplicationInfo applicationInfo = getApplicationContext().getApplicationInfo();
                     String apkPath = applicationInfo.sourceDir;
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("application/vnd.android.package-archieve");
                     intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(apkPath)));
                     startActivity(Intent.createChooser(intent, "Share App Using"));
-                    
-        } else if (id == R.id.nav_feedback) {
 
+        } else if (id == R.id.nav_feedback) {
+            Log.d(TAG, "onNavigationItemSelected: opening FeedbackActivity");
             Intent intent = new Intent(HomeActivity.this, FeedbackActivity.class);
             startActivity(intent);
         }
@@ -209,6 +214,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.fab:
+                Log.d(TAG, "onClick: opening UploadPdfActivity");
                 startActivity(new Intent(HomeActivity.this, UploadPdfActivity.class));
                 break;
         }

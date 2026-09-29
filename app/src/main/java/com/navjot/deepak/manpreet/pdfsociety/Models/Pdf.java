@@ -1,6 +1,9 @@
 package com.navjot.deepak.manpreet.pdfsociety.Models;
 
+import android.util.Log;
+
 public class Pdf {
+    private static final String TAG = "Pdf";
 
     private String pdfname;
     private String description;
@@ -15,6 +18,7 @@ public class Pdf {
     }
 
     public Pdf(String pdfname, String description, String uid, int no_of_downloads, String download_url, String username, double pdfsize, String uploaddate) {
+        Log.d(TAG, "Creating Pdf object with name: " + pdfname);
         this.pdfname = pdfname;
         this.description = description;
         this.uid = uid;
@@ -91,7 +95,7 @@ public class Pdf {
 
     @Override
     public String toString() {
-        return "Pdf{" +
+        String result = "Pdf{" +
                 "pdfname='" + pdfname + '\'' +
                 ", description='" + description + '\'' +
                 ", uid='" + uid + '\'' +
@@ -101,5 +105,7 @@ public class Pdf {
                 ", pdfsize=" + pdfsize +
                 ", uploaddate='" + uploaddate + '\'' +
                 '}';
+        Log.v(TAG, "toString: " + result);
+        return result;
     }
 }
